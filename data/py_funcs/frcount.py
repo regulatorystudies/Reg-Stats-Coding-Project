@@ -82,7 +82,7 @@ def main(dir_path,file_path,rule_type='es',type='cumulative'):
                   'Trump': [2017, 2021],
                   'Biden': [2021, ]}
     print(f"The current dataset covers the {', '.join(list(admin_year.keys()))} administrations.\n"
-          f"If there is a new administration, revise the admin_year dictionary in esfunc.main and re-run the code.")
+          f"If there is a new administration, revise the admin_year dictionary in frcount.main and re-run the code.")
 
     # Import the current dataset
     if os.path.exists(file_path):
@@ -109,6 +109,7 @@ def main(dir_path,file_path,rule_type='es',type='cumulative'):
     df_fr['publication_date'] = pd.to_datetime(df_fr['publication_date'], format="mixed").dt.date
     df_fr['publication_year'] = pd.to_datetime(df_fr['publication_date']).dt.year
     df_fr['publication_month'] = pd.to_datetime(df_fr['publication_date']).dt.month
+    df_fr['significant'] = pd.to_numeric(df_fr['significant'], errors='coerce')
     df_fr['econ_significant'] = pd.to_numeric(df_fr['econ_significant'], errors='coerce')
     df_fr['3(f)(1) significant'] = pd.to_numeric(df_fr['3(f)(1) significant'], errors='coerce')
 

@@ -20,3 +20,17 @@ df=frcount.main(dir_path,file_path,rule_type='es',type='monthly')
 df.to_csv(file_path, index=False)
 df.to_excel(file_path2, index=False)
 print('The dataset has been updated and saved. End of execution.')
+
+#%% Count significant rules under Biden
+file_path=f'{dir_path}/monthly_significant_rules_biden.csv'
+df_sig=frcount.main(dir_path,file_path,rule_type='sig',type='monthly')
+df_sig=df_sig[df_sig['Biden'].notnull()][['Month','Months in Office','Biden']]
+df_sig.rename(columns={'Biden':'Significant'},inplace=True)
+
+df_es=df[df['Biden'].notnull()][['Months in Office','Biden']]
+df_es.rename(columns={'Biden':'Economically Significant'},inplace=True)
+
+df_sig=df_sig.merge(df_es,on='Months in Office',how='left')
+df_sig['Other Significant']=df_sig['Significant']-df_sig['Economically Significant']
+
+df_sig.to_csv(file_path,index=False)
